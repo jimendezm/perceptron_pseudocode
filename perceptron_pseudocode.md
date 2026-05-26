@@ -225,7 +225,7 @@ IF this file is run directly:
     ) / standard_deviation(degrees_fahrenheit)
 
     predicted_celsius_normalized ← perceptron(fahrenheit_normalized, w, b)
-    predicted_celsius ← denormalize(predicted_celsius_normalized, degrees_celsius)
+    predicted_celsius ← denormalize(predicted_ce    lsius_normalized, degrees_celsius)
 
     PRINT "Predicted normalized Celsius:", predicted_celsius_normalized
     PRINT "Predicted Celsius:", predicted_celsius
