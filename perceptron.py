@@ -35,7 +35,7 @@ FUNCTION mean(elements):
 """
 def mean(elements):
     if elements==[]:
-        raise Exception("Cannot compute mean of an empty list")
+        raise ValueError("Cannot compute mean of an empty list")
     
     total=0
     
@@ -56,7 +56,7 @@ FUNCTION standard_deviation(elements):
 """
 def standard_deviation(elements):
     if elements==[]:
-        raise Exception("Cannot compute standard deviation of an empty list")
+        raise ValueError("Cannot compute standard deviation of an empty list")
     
     mean_value=mean(elements)
     variance = sum((element-mean_value)**2 for element in elements) / len(elements)
@@ -84,7 +84,7 @@ def normalize(dataset):
     value_sd=standard_deviation(dataset)
     
     if value_sd==0:
-        raise Exception("Cannot normalize values with zero standard deviation")
+        raise ValueError("Cannot normalize values with zero standard deviation")
     
     value_norm=[]
     
@@ -181,10 +181,10 @@ FUNCTION train_perceptron(x_values, y_values, w, b, learning_rate, epochs):
 """
 def train_perceptron(x_values, y_values, w, b, learning_rate, epochs):
     if len(x_values)!=len(y_values):
-        raise Exception("x_values and y_values must have the same length")
+        raise ValueError("x_values and y_values must have the same length")
     
     if x_values==[]:
-        raise Exception("Cannot train with an empty dataset")
+        raise ValueError("Cannot train with an empty dataset")
     
     n=len(x_values)
     
@@ -195,21 +195,20 @@ def train_perceptron(x_values, y_values, w, b, learning_rate, epochs):
         "mse":[]
     }
     
-    for epoch in range(0,epochs-1):
+    for epoch in range(epochs):
         dw=0
         db=0
         mse=0
         
-        for x in x_values:
-            for y in y_values:
-                y_hat=perceptron(x,w,b)
-                
-                error=y-y_hat
-                
-                mse=mse+error*math.exp(2)
-                
-                dw=dw+x*error
-                db=db+error
+        for x,y in zip(x_values,y_values):
+            y_hat=perceptron(x,w,b)
+            
+            error=y-y_hat
+            
+            mse=mse+error**2
+            
+            dw=dw+x*error
+            db=db+error
         mse=mse/n
         
         d_mse_dw=(-2/n)*dw
